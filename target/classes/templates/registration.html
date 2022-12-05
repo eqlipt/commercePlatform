@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+  <title id="pageTitle">Регистрация</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+  <div class="showcase-auth">
+    <h3>Регистрация</h3>
+    <form method="post" th:action="@{/auth/registration}" th:object="${person}">
+      <label for="login">Выберите логин: </label>
+      <input type="text"  th:field="*{login}" placeholder="логин" name="username" id="login">
+      <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+      <br>
+      <label for="password">Придумайте пароль: </label>
+      <input type="password" th:field="*{password}" placeholder="пароль" name="password" id="password">
+      <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+      <br>
+      <input class="button button-primary"  type="submit" value="Зарегистрироваться">
+    </form>
+  </div>
+</div>
+</body>
+</html>

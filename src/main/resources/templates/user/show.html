@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Пользователи</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <h3>Информация о пользователе</h3>
+    <div>
+      <p th:text="'ID: ' + ${user.getId()}"></p>
+      <p th:text="'Логин: ' + ${user.getLogin()}"></p>
+      <p th:text="'Роль: ' + ${user.getRole()}"></p>
+        <a class="button"
+           th:href="@{/user/{id}/edit(id=${user.getId()})}"
+           th:text="Изменить"
+        ></a>
+        <a class="button"
+           th:href="@{/user/{id}/delete(id=${user.getId()})}"
+           th:text="Удалить"
+        ></a>
+        <a class="button"
+           th:href="@{/user}">Список пользователей</a>
+    </div>
+</div>
+</body>
+</html>

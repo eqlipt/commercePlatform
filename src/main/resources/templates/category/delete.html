@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Пользователи</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <h3 th:text="'Удаление категории товаров'"></h3>
+    <form th:method="POST" th:action="@{/category/{id}/delete(id=${category.getId()})}" th:object="${category}">
+        <p th:text="'ID: ' + ${category.getId()}"></p>
+        <p th:text="'Наименование: ' + ${category.getName()}"></p>
+
+        <p th:text="'Удалить категорию? Все размещённые на площадке товары из этой категории тоже будут удалены!'"></p>
+
+        <input type="submit" class="button button-danger" value="Удалить"/>
+        <a class="button" th:href="@{/category/{id}(id=${category.getId()})}" th:text="Отмена"></a>
+    </form>
+</div>
+</body>
+</html>

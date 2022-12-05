@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Заказы</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <h3 th:text="'Заказ от ' + ${#temporals.format(orderDate, 'dd MMM yyyy')}"></h3>
+    <p th:text="'Статус: '  + ${orderStatus.toString()}"></p>
+    <form th:method="POST"
+          th:if="${#authentication
+                    .getAuthorities()
+                    .stream()
+                    .findFirst()
+                    .toString()
+                    .contains('ROLE_SUPPLIER')}"
+          th:action="@{/sales/{number}/changestatus(number=${orderNumber})}"
+          th:object="${status}" >
+        <div class="change-status__body">
+            <select name="status" id="status">
+                <option th:each="state : ${T(com.example.CommercePlatform.enumerate.Status).values()}" th:value="${state}" th:text="${state}"></option>
+            </select>
+            <input type="submit" class="button button-primary" th:value="'Изменить статус'">
+        </div>
+    </form>
+    <div th:if="${!products.isEmpty()}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Стоимость</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product : ${products}">
+                    <td><a th:href="@{/shop/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a></td>
+                    <td><span th:text="${product.getPrice()} + ' ₽'"></span></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="cart__subtotal"><h5 class="cart__subtotal-heading" th:text="'Итого: '"></h5></td>
+                    <td class="cart__subtotal"><span th:text="${totalPrice} + ' ₽'"></span></td>
+                </tr>
+            </tfoot>
+        </table>
+        <a class="button button-danger" th:text="'Отменить заказ'" th:href="@{/order/cancel}" th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER') && (orderStatus.toString().equals('Принят') || orderStatus.toString().equals('Обработка'))}"></a>
+    </div>
+    <p th:if="${products.isEmpty()}" th:text="'Заказ с таким номером не существует или не содержит товаров'"></p>
+</div>
+</body>
+</html>

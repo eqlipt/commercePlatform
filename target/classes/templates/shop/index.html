@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/shared :: head">
+  <title id="pageTitle">Магазин</title>
+</head>
+<header th:include="fragments/shared :: header"></header>
+<body>
+<div class="container">
+  <h3>Сегодня в продаже</h3>
+  <div class="showcase-product">
+    <div class="filters">
+      <form th:method="POST" th:action="@{/shop}" th:object="${product}">
+        <label for="search" th:text="'Наименование'"></label>
+        <input type="text" name="search" id="search" class="input input__search" th:value="${search}">
+        <div class="input__price-container">
+        <label for="price_from" th:text="'Цена от'" class="input input__price-label"></label>
+          <i id="sort_button" class="fa-solid fa-sort-up input__price-sort_button"></i>
+        <label for="price_to" th:text="'Цена до'" class="input input__price-label"></label>
+        </div>
+        <input type="number" name="price_from" id="price_from" class="input input__price input__price-left" th:value="${price_from}">
+        <input type="number" name="price_to" id="price_to" th:value="${price_to}" class="input input__price input__price-right">
+        <label for="category">Категория</label>
+        <select name="category" id="category" class="input__select">
+          <option th:value="0" th:selected="${selected_category == 0}">Все товары</option>
+          <option th:each="element : ${category}" th:text="${element.getName()}" th:value="${element.getId()}" th:selected="${element.getId() == selected_category}"></option>
+        </select>
+        <input class="button button-primary input__submit" type="submit" value="Применить фильтры">
+        <a class="button input__submit" th:href="@{/shop}">Сбросить фильтры</a>
+      </form>
+    </div>
+    <div class="products products-side">
+      <div class="product-card" th:each="pr : ${products}">
+        <a class="product-card__link" th:href="@{/shop/{id}(id=${pr.getId()})}">
+          <span class="product-card__category" th:text="${pr.getCategory().getName()}"></span>
+          <img th:src="${'/img/' + pr.getImageList()[0].getFileName()}"/>
+          <span class="product-card__price-label" th:text="${pr.getPrice()} + ' ₽'"></span>
+          <span th:text="${pr.getTitle()}"></span>
+        </a>
+        <a class="button button-primary button-add"
+           th:text="'В корзину'"
+           th:href="@{/cart/add/{id}(id=${pr.getId()})}"
+           th:if="${
+                    #authentication
+                    .getAuthorities()
+                    .stream()
+                    .findFirst()
+                    .toString()
+                    .contains('ROLE_CUSTOMER')}">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" th:src="@{/js/script.js}"></script>
+</body>
+</html>

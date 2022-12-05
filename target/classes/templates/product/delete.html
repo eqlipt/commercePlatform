@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/shared :: head">
+  <title id="pageTitle">Товары</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+  <h3>Удаление товара</h3>
+  <form th:method="POST" th:action="@{/product/{id}/delete(id=${product.getId()})}" th:object="${product}">
+    <p th:text="${product.getTitle()}"></p>
+    <p th:text="'Вы уверены?'"></p>
+    <input type="submit" class="button button-danger"  value="Удалить"/>
+    <a class="button button-secondary"  th:href="@{/product/{id}(id=${product.getId()})}" th:text="Отмена"></a>
+  </form>
+</div>
+</body>
+</html>

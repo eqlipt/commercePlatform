@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Пользователи</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <h3 th:text="'Управление пользователями'"></h3>
+    <div th:each="user : ${users}">
+        <a th:href="@{/user/{id}(id=${user.getId()})}" th:text="${user.getLogin() + ': ' + user.getRole()}"></a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Пользователи</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <h3>Удаление пользователя</h3>
+    <form th:method="POST" th:action="@{/user/{id}/delete(id=${user.getId()})}" th:object="${user}">
+        <p th:text="'ID: ' + ${user.getId()}"></p>
+        <p th:text="'Логин: ' + ${user.getLogin()}"></p>
+        <p th:text="'Роль: ' + ${user.getRole()}"></p>
+
+        <p th:text="'Удалить пользователя?'"></p>
+
+        <input type="submit" class="button button-danger" value="Удалить"/>
+        <a class="button" th:href="@{/user/{id}(id=${user.getId()})}" th:text="Отмена"></a>
+    </form>
+</div>
+</body>
+</html>

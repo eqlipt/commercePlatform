@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle" th:text="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER')} ? 'Магазин' : 'Продажи'"></title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <h3 th:text="'Список заказов'"></h3>
+    <div th:each="orderList, orderNumber : ${orders}" class="order-body">
+        <a th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER')}" th:href="@{/order/{number}(number=${orderNumber.current.getKey()})}" class="order-heading">
+            <div th:replace="fragments/shared :: orderTopRow"></div>
+            <div th:replace="fragments/shared :: orderBottomRow"></div>
+        </a>
+        <a th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_SUPPLIER')}" th:href="@{/sales/{number}(number=${orderNumber.current.getKey()})}" class="order-heading">
+            <div th:replace="fragments/shared :: orderTopRow"></div>
+            <div th:replace="fragments/shared :: orderBottomRow"></div>
+        </a>
+        <div class="order-images">
+            <a th:each="order : ${orderList.getValue().toArray()}" th:href="@{/shop/{id}(id=${order.getProduct().getId()})}">
+                <img th:src="${'/img/' + order.getProduct().getImageList()[0].getFileName()}"
+                     th:alt="${order.getProduct().getTitle()}"
+                     th:title="${order.getProduct().getTitle()}">
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+<!--    <div th:each="order : ${orderList}" class="order-body">-->
+<!--        <a th:href="@{/order/{id}(id=${order.getId()})}" class="order-heading">-->
+<!--            <div class="order-heading__top-row">-->
+<!--                <h5 th:text="'Заказ от ' + ${#temporals.format(order.getDateTime(), 'dd MMM yyyy')}"></h5>-->
+<!--                <span class="order-status" th:text="${order.getStatus()}"></span>-->
+<!--            </div>-->
+<!--            <div class="order-heading__bottom-row">-->
+<!--                <span class="order-identifier" th:text="'Идентификатор заказа: ' + ${order.getNumber()}"></span>-->
+<!--                <span class="order-price" th:text="${order.getPrice()} + ' ₽'"></span>-->
+<!--            </div>-->
+<!--        </a>-->
+<!--        <div class="order-images">-->
+<!--            <img th:src="${'/img/' + order.getProduct().getImageList()[0].getFileName()}">-->
+<!--        </div>-->
+<!--    </div>-->

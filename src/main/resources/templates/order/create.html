@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Магазин</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+  <h3 th:text="'Заказ успешно создан!'"></h3>
+  <p th:text="'Идентификатор заказа: ' +${orderNumber}"></p>
+  <a class="button" th:href="@{/order}" th:text="'К заказам'"></a>
+</div>
+</body>
+</html>

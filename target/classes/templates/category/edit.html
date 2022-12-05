@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Настройки площадки</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+  <h3 th:text="'Изменение категории товаров'"></h3>
+  <form th:method="POST" th:action="@{/category/{id}/edit(id=${category.getId()})}" th:object="${category}">
+    <label for="name">Наименование</label>
+    <input type="text" th:field="*{name}" id="name" name="name"/>
+    <p class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+    <br>
+    <input type="submit" class="button button-primary" value="Сохранить"/>
+    <a class="button" th:href="@{/category/{id}(id=${category.getId()})}" th:text="'Отмена'"></a>
+  </form>
+</div>
+</body>
+</html>

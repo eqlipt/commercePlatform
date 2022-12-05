@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Магазин</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <h3 th:text="'Корзина'"></h3>
+    <div th:if="${!products.isEmpty()}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Стоимость</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product : ${products}">
+                    <td><a th:href="@{/shop/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a></td>
+                    <td><span th:text="${product.getPrice()} + ' ₽'"></span></td>
+                    <td><a th:href="@{/cart/delete/{id}(id=${product.getId()})}"><i class="fa-solid fa-trash-can"></i></a></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="cart__subtotal"><h5 class="cart__subtotal-heading" th:text="'Итого: '"></h5></td>
+                    <td class="cart__subtotal"><span th:text="${totalPrice} + ' ₽'"></span></td>
+                    <td class="cart__subtotal"></td>
+                </tr>
+            </tfoot>
+        </table>
+        <a class="button button-primary" th:text="'Оформить заказ'" th:href="@{/order/create}"></a>
+    </div>
+    <p th:if="${products.isEmpty()}" th:text="'Корзина пуста'"></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Ошибка</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div th:replace="fragments/shared :: errorPage">
+    <h3 id="pageH3">Внутренний сбой сервера</h3>
+    <p id="pageText">Ошибка 500</p>
+</div>
+</body>
+</html>

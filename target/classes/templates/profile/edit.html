@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Пользователи</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+  <h3>Изменение личных данных</h3>
+  <form th:method="POST" th:action="@{/profile/edit}" th:object="${user}">
+    <input type="hidden" th:field="*{id}" id="id" name="id"/>
+    <input type="hidden" th:field="*{login}" id="login" name="login"/>
+    <input type="hidden" th:field="*{role}" id="role" name="role"/>
+
+    <label for="password">Новый пароль</label>
+    <input type="password" th:field="*{password}" id="password" name="password"/>
+    <p class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка в пароле</p>
+
+    <br>
+    <input type="submit" class="button button-primary" value="Сохранить"/>
+    <a class="button" th:href="@{/profile}" th:text="Отмена"></a>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <link rel="stylesheet"-->
+<!--          href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"-->
+<!--          integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="-->
+<!--          crossorigin="anonymous"-->
+<!--          referrerpolicy="no-referrer"-->
+<!--    />-->
+<!--    <link th:href="@{/css/style.css}" rel="stylesheet">-->
+<!--    <title>Add User</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h3>Add user</h3>-->
+<!--    <form th:method="post" th:action="@{/users}" th:object="${user}">-->
+<!--        <label for="age">Enter age</label>-->
+<!--        <input type="number" th:field="*{age}" id="age" name="age"/>-->
+<!--        <p class="error-message" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</p>-->
+
+<!--        <label for="name">Enter name</label>-->
+<!--        <input type="text" th:field="*{name}" id="name" name="name"/>-->
+<!--        <p class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p>-->
+
+<!--        <label for="email">Enter email</label>-->
+<!--        <input type="text" th:field="*{email}" id="email" name="email"/>-->
+<!--        <p class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</p>-->
+
+<!--&lt;!&ndash;        <label for="phone">Enter phone</label>&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="text" th:field="*{phone}" id="phone" name="phone"/>&ndash;&gt;-->
+
+<!--        <br>-->
+<!--        <input type="submit" class="button-primary" value="Create user"/>-->
+<!--        <a class="button" th:href="@{/users/}" th:text="Cancel"></a>-->
+<!--    </form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

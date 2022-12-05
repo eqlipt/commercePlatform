@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+  <title id="pageTitle">Товары</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+  <h3>Добавить новый товар</h3>
+  <form th:method="POST" th:action="@{/product/add}" th:object="${product}" enctype="multipart/form-data">
+    <label for="category">Категория товара: </label>
+    <select name="category" id="category" th:field="*{category}">
+      <option th:each="element : ${category}" th:text="${element.getName()}" th:value="${element.getId()}"></option>
+    </select>
+
+    <label for="title">Наименование: </label>
+    <input type="text" th:field="*{title}" id="title">
+    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+    <br>
+
+    <label for="price">Цена: </label>
+    <input type="number" min="100" th:field="*{price}" id="price">
+    <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+    <br>
+
+    <label for="description">Описание: </label>
+    <textarea type="text" th:field="*{description}" id="description"></textarea>
+    <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+    <br>
+
+    <label for="supplier">Поставщик: </label>
+    <input type="text" th:field="*{supplier}" id="supplier">
+    <div style="color: red" th:if="${#fields.hasErrors('supplier')}" th:errors="*{supplier}"></div>
+    <br>
+
+    <label for="warehouse">Склад: </label>
+    <input type="text" th:field="*{warehouse}" id="warehouse">
+    <div style="color: red" th:if="${#fields.hasErrors('warehouse')}" th:errors="*{warehouse}"></div>
+    <br>
+    <br>
+    <input type="file" name="file_one"><br>
+    <input class="button button-primary" type="submit" value="Добавить">
+    <a class="button button-secondary" href="/product">Отмена</a>
+  </form>
+</div>
+</body>
+</html>

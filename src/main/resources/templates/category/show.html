@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Настройки площадки</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <h3 th:text="'Информация о категории товаров'"></h3>
+    <div>
+      <p th:text="'ID: ' + ${category.getId()}"></p>
+      <p th:text="'Наименование: ' + ${category.getName()}"></p>
+        <a class="button"
+           th:href="@{/category/{id}/edit(id=${category.getId()})}"
+           th:text="Изменить"
+        ></a>
+        <a class="button"
+           th:href="@{/category/{id}/delete(id=${category.getId()})}"
+           th:text="Удалить"
+        ></a>
+        <a class="button"
+           th:href="@{/category}">Список категорий</a>
+    </div>
+</div>
+</body>
+</html>

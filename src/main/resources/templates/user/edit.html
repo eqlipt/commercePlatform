@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Пользователи</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+  <h3>Редактирование пользователя</h3>
+  <form th:method="POST" th:action="@{/user/{id}/edit(id=${user.getId()})}" th:object="${user}">
+    <p th:text="'Id: ' + ${user.getId()}"></p>
+    <p th:text="'Username: ' + ${user.getLogin()}"></p>
+    <p th:text="'Роль: ' + ${user.getRole()}"></p>
+    <input type="hidden" th:field="*{login}" id="login" name="login"/>
+
+    <label for="role">Новая роль</label>
+    <input type="text" th:field="*{role}" id="role" name="role"/>
+<!--    <select id="role" name="role" th:field="*{role}">-->
+<!--      <option th:each="element : ${roles}" th:text="${element.getRole()}" th:value="${element.getRole()}"></option>-->
+<!--    </select>-->
+
+    <br>
+    <input type="submit" class="button button-primary" value="Сохранить"/>
+    <a class="button" th:href="@{/user/{id}(id=${user.getId()})}" th:text="Отмена"></a>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Личный кабинет</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <div class="showcase-personal">
+        <h3 th:if="${user.getRole() == 'ROLE_ADMIN'}">Кабинет администратора</h3>
+        <h3 th:if="${user.getRole() == 'ROLE_CUSTOMER'}">Кабинет покупателя</h3>
+        <h3 th:if="${user.getRole() == 'ROLE_SUPPLIER'}">Кабинет продавца</h3>
+        <a class="button" th:href="@{/profile}">Личные данные</a>
+        <a class="button button-secondary" href="/user" th:if="${user.getRole() == 'ROLE_ADMIN'}">Управление пользователями</a>
+        <a class="button button-secondary" href="/category" th:if="${user.getRole() == 'ROLE_ADMIN'}">Управление категориями товаров</a>
+        <a class="button button-secondary" href="/product" th:if="${user.getRole() == 'ROLE_ADMIN' or user.getRole() == 'ROLE_SUPPLIER'}">Управление товарами</a>
+        <a class="button button-secondary" href="/sales" th:if="${user.getRole() == 'ROLE_SUPPLIER'}">Продажи</a>
+        <a class="button button-secondary" href="/order" th:if="${user.getRole() == 'ROLE_CUSTOMER'}">Заказы</a>
+    </div>
+</div>
+</body>
+</html>

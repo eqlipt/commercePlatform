@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Авторизация</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <div class="showcase-auth">
+        <h3>Вход</h3>
+        <form method="post" action="/process_login">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <label for="username">Введите логин: </label>
+            <input type="text" placeholder="логин" name="username" id="username">
+            <br>
+            <label for="password">Введите пароль: </label>
+            <input type="password" placeholder="пароль" name="password" id="password">
+            <br>
+            <p th:if="${param.error}" class="error-message">Неправильный логин или пароль</p>
+            <input class="button button-primary" type="submit" value="Войти">
+        </form>
+    </div>
+</div>
+</body>
+</html>

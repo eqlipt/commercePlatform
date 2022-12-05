@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Ошибка</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+
+<div th:replace="fragments/shared :: errorPage">
+    <h3 id="pageH3">Доступ ограничен. Недостаточно прав.</h3>
+    <p id="pageText">Ошибка 403</p>
+</div>
+</body>
+</html>

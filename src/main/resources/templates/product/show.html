@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Товары</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <div th:include="fragments/shared :: productShowcase"></div>
+    <div th:if="${#request.userPrincipal}">
+        <a th:if="${user.getRole() == 'ROLE_SUPPLIER'}" class="button button-secondary"
+           th:href="@{/product/{id}/edit(id=${product.getId()})}"
+        >Изменить</a>
+        <a class="button button-danger"
+           th:href="@{/product/{id}/delete(id=${product.getId()})}"
+        >Удалить</a>
+    </div>
+</div>
+</body>
+</html>

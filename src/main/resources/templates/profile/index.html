@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Профиль пользователя</title>
+</head>
+<body>
+<header th:include="fragments/shared :: header"></header>
+<div class="container">
+    <h3>Информация о пользователе</h3>
+    <div>
+      <p th:text="'Имя пользователя: ' + ${user.getLogin()}"></p>
+      <p th:text="'Роль: ' + ${user.getRole()}"></p>
+        <a class="button"
+           th:href="@{/profile/edit}"
+           th:text="'Сменить пароль'"
+        ></a>
+        <a class="button button-danger"
+           th:href="@{/profile/delete}"
+           th:text="'Удалить аккаунт'"
+        ></a>
+    </div>
+</div>
+</body>
+</html>

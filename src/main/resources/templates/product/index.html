@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/shared :: head">
+    <title id="pageTitle">Торговая площадка</title>
+</head>
+<header th:include="fragments/shared :: header"></header>
+<body>
+    <div class="container">
+        <h3 th:text="${user.getRole() == 'ROLE_SUPPLIER' ? 'Ваши товары' : 'Товары на площадке'}"></h3>
+        <div class="products">
+            <div class="product-card" th:each="pr : ${products}">
+                <a th:href="@{/product/{id}(id=${pr.getId()})}" class="product-card__link">
+                    <span class="product-card__category" th:text="${pr.getCategory().getName()}"></span>
+                    <img th:src="${'/img/' + pr.getImageList()[0].getFileName()}"/>
+                    <span class="product-card__price-label" th:text="${pr.getPrice()} + ' ₽'"></span>
+                    <span th:text="${pr.getTitle()}"></span>
+                </a>
+            </div>
+        </div>
+        <a th:if="${user.getRole() == 'ROLE_SUPPLIER'}" class="button button-primary" href="/product/add">Добавить</a>
+    </div>
+</body>
+
+</html>

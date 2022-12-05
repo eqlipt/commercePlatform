@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+  <meta charset="UTF-8">
+  <link type="text/css" th:href="@{/css/normalize.css}" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+        integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+  />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+  <link type="text/css" th:href="@{/css/style.css}" rel="stylesheet">
+  <title th:replace=":: #pageTitle">Layout Generic Title</title>
+</head>
+<body>
+
+<header th:fragment="header">
+      <nav class="navbar">
+        <div>
+          <a class="button" th:href="@{/shop}">Магазин</a>
+        </div>
+        <div>
+          <a th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER')}" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping"></i></a>
+          <a th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_SUPPLIER')}" th:href="@{/sales}"><i class="fa-solid fa-store"></i></a>
+          <a class="navbar__username" th:href="@{/personal}" th:text="${#authentication.getPrincipal() == 'anonymousUser' ? '' : #request.userPrincipal.getName()}"></a>
+          <a th:if="${#authentication.getPrincipal() == 'anonymousUser'}" class="button" href="/auth/login">Вход</a>
+          <a th:if="${#authentication.getPrincipal() == 'anonymousUser'}" class="button" href="/auth/registration">Регистрация</a>
+          <form th:if="${#request.userPrincipal}" class="form__logout-button" method="post" th:action="@{/logout}">
+            <input type="submit" value="Выйти">
+          </form>
+        </div>
+      </nav>
+</header>
+
+<div th:fragment="errorPage" class="container">
+  <h3 th:include=":: #pageH3">Generic error heading</h3>
+  <p th:include=":: #pageText">Generic error text</p>
+  <a th:href="@{/}">Главная</a>
+</div>
+
+<div th:fragment="productShowcase" class="product__showcase">
+  <h4 th:text="${product.getCategory().getName() + ' ' + product.getTitle()}"></h4>
+  <img th:src="${'/img/' + product.getImageList()[0].getFileName()}"/>
+  <p th:text="'Стоимость: ' + ${product.getPrice()} + '₽'"></p>
+  <p th:text="${product.getDescription()}"></p>
+  <p th:text="'Поставщик: ' + ${product.getSupplier()}"></p>
+  <p th:text="'На складе: ' + ${product.getWarehouse()}"></p>
+</div>
+
+<div th:fragment="orderTopRow" class="order-heading__top-row">
+  <h5 th:text="'Заказ от ' + ${#temporals.format(orderList.getValue().toArray()[0].getDateTime(), 'dd MMM yyyy')}"></h5>
+  <span class="order-status" th:text="${orderList.getValue().toArray()[0].getStatus()}"></span>
+</div>
+<div th:fragment="orderBottomRow" class="order-heading__bottom-row">
+  <span class="order-identifier" th:text="'Идентификатор заказа: ' + ${orderNumber.current.getKey()}"></span>
+  <!--                <span class="order-price" th:text="' ₽' + ${orderList.getValue().stream().collect(Collect)}"></span>-->
+</div>
+
+</body>
+</html>
