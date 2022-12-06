@@ -54,12 +54,12 @@
 </div>
 
 <div th:fragment="orderTopRow" class="order-heading__top-row">
-  <h5 th:text="'Заказ от ' + ${#temporals.format(orderList.getValue().toArray()[0].getDateTime(), 'dd MMM yyyy')}"></h5>
-  <span class="order-status" th:text="${orderList.getValue().toArray()[0].getStatus()}"></span>
+  <h5 th:text="'Заказ от ' + ${#temporals.format(currentOrderRow.getValue().toArray()[0].getDateTime(), 'dd MMM yyyy')}"></h5>
+  <span class="order-status" th:text="${currentOrderRow.getValue().toArray()[0].getStatus()}"></span>
 </div>
 <div th:fragment="orderBottomRow" class="order-heading__bottom-row">
-  <span class="order-identifier" th:text="'Идентификатор заказа: ' + ${orderNumber.current.getKey()}"></span>
-  <!--                <span class="order-price" th:text="' ₽' + ${orderList.getValue().stream().collect(Collect)}"></span>-->
+  <span class="order-identifier" th:text="'Идентификатор заказа: ' + ${currentOrderRow.getKey()}"></span>
+  <!--                <span class="order-price" th:text="' ₽' + ${currentOrderRow.getValue().stream().collect(Collect)}"></span>-->
 </div>
 
 </body>

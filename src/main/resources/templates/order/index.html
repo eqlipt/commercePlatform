@@ -15,21 +15,22 @@
         <input class="button button-primary" type="submit" value="Найти">
         <a class="button" th:href="@{/sales}">Сбросить</a>
     </form>
-    <div th:each="orderList, orderNumber : ${orders}" class="order-body">
+
+    <div th:each="currentOrderRow, wholeOrder : ${orders}" class="order-body">
         <a class="order-heading"
            th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER')}"
-           th:href="@{/order/{number}(number=${orderNumber.current.getKey()})}">
+           th:href="@{/order/{number}(number=${currentOrderRow.getKey()})}">
             <div th:replace="fragments/shared :: orderTopRow"></div>
             <div th:replace="fragments/shared :: orderBottomRow"></div>
         </a>
         <a class="order-heading"
            th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_SUPPLIER')}"
-           th:href="@{/sales/{number}(number=${orderNumber.current.getKey()})}">
+           th:href="@{/sales/{number}(number=${currentOrderRow.getKey()})}">
             <div th:replace="fragments/shared :: orderTopRow"></div>
             <div th:replace="fragments/shared :: orderBottomRow"></div>
         </a>
         <div class="order-images">
-            <a th:each="order : ${orderList.getValue().toArray()}" th:href="@{/shop/{id}(id=${order.getProduct().getId()})}">
+            <a th:each="order : ${currentOrderRow.getValue().toArray()}" th:href="@{/shop/{id}(id=${order.getProduct().getId()})}">
                 <img th:src="${'/img/' + order.getProduct().getImageList()[0].getFileName()}"
                      th:alt="${order.getProduct().getTitle()}"
                      th:title="${order.getProduct().getTitle()}">
@@ -41,7 +42,7 @@
 </html>
 
 
-<!--    <div th:each="order : ${orderList}" class="order-body">-->
+<!--    <div th:each="order : ${currentOrderRow}" class="order-body">-->
 <!--        <a th:href="@{/order/{id}(id=${order.getId()})}" class="order-heading">-->
 <!--            <div class="order-heading__top-row">-->
 <!--                <h5 th:text="'Заказ от ' + ${#temporals.format(order.getDateTime(), 'dd MMM yyyy')}"></h5>-->
