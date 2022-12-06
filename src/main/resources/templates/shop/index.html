@@ -39,14 +39,14 @@
         </a>
         <a class="button button-primary button-add"
            th:text="'В корзину'"
-           th:href="@{/cart/add/{id}(id=${pr.getId()})}"
-           th:if="${
-                    #authentication
-                    .getAuthorities()
-                    .stream()
-                    .findFirst()
-                    .toString()
-                    .contains('ROLE_CUSTOMER')}">
+           th:href="@{/cart/add/{id}(id=${pr.getId()})}">
+<!--           th:if="${-->
+<!--                    #authentication-->
+<!--                    .getAuthorities()-->
+<!--                    .stream()-->
+<!--                    .findFirst()-->
+<!--                    .toString()-->
+<!--                    .contains('ROLE_CUSTOMER')}">-->
         </a>
       </div>
     </div>

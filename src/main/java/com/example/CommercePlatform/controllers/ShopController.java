@@ -23,7 +23,6 @@ public class ShopController {
     public ShopController(ProductService productService, ProductCategoryService productCategoryService) {
         this.productService = productService;
         this.productCategoryService = productCategoryService;
-//        this.products = productService.findAll();
     }
 
     // Read

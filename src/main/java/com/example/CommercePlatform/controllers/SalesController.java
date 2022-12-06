@@ -18,19 +18,27 @@ import java.util.stream.Collectors;
 @RequestMapping("/sales")
 public class SalesController {
     private final OrderService orderService;
-    private final ProductService productService;
 
-    public SalesController(OrderService orderService, ProductService productService) {
+    public SalesController(OrderService orderService) {
         this.orderService = orderService;
-        this.productService = productService;
     }
 
     @GetMapping()
     public String index(Model model) {
         var orders = orderService.findAll().stream().collect(Collectors.groupingBy(Order::getNumber));
         model.addAttribute("orders", orders);
+        model.addAttribute("search", "");
         return "/order/index";
     }
+
+    @PostMapping()
+    public String filter(@RequestParam(required = false, defaultValue = "", name = "search") String search, Model model) {
+        var orders = orderService.filter(search).stream().collect(Collectors.groupingBy(Order::getNumber));
+        model.addAttribute("orders", orders);
+        model.addAttribute("search", search);
+        return "/order/index";
+    }
+
 
     @GetMapping("/{number}")
     public String show(@PathVariable("number") String orderNumber, Model model) {

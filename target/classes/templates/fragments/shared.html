@@ -21,7 +21,8 @@
 
 <header th:fragment="header">
       <nav class="navbar">
-        <div>
+        <div class="navbar__logo-container">
+          <a th:href="@{/shop}"><img class="logo" th:src="${'/img/logo.jpg'}"></a>
           <a class="button" th:href="@{/shop}">Магазин</a>
         </div>
         <div>

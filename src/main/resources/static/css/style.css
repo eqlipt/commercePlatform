@@ -3,8 +3,15 @@
 a {
     text-decoration: none;
 }
+textarea {
+    width: 100%;
+    height: 180px;
+}
 .hidden {
     display: none;
+}
+.logo {
+    height: 36px;
 }
 .error-message {
     color: #ff572f;
@@ -31,9 +38,6 @@ a {
     color: #ffffff !important;
 
 }
-.hidden {
-    display: none;
-}
 .navbar {
     width: 90%;
     display: flex;
@@ -41,6 +45,10 @@ a {
     margin: 20px auto 0;
     padding: 0 20px;
     line-height: 2.5rem;
+}
+.navbar__logo-container {
+    display: flex;
+    gap: 20px;
 }
 .navbar__username {
     padding-right: 20px;
@@ -116,9 +124,11 @@ a {
 }
 .fa-sort-up {
     transform: scale(2) translateX(1px) translateY(2px);
+    color: #33C3F0;
 }
 .fa-sort-down {
     transform: scale(2) translateX(1px) translateY(-4px);
+    color: #33C3F0;
 }
 .fa-cart-shopping,
 .fa-store {
@@ -228,6 +238,14 @@ a {
     padding: 16px;
 }
 .change-status__body {
+    display: flex;
+    gap: 10px;
+}
+.input__search-order {
+    width: 300px;
+    margin-bottom: 0;
+}
+.order-search-form {
     display: flex;
     gap: 10px;
 }

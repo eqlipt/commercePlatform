@@ -2,14 +2,12 @@ package com.example.CommercePlatform.controllers;
 
 import com.example.CommercePlatform.models.Image;
 import com.example.CommercePlatform.models.Product;
-import com.example.CommercePlatform.security.PersonDetails;
+import com.example.CommercePlatform.services.PersonService;
 import com.example.CommercePlatform.services.ProductCategoryService;
 import com.example.CommercePlatform.services.ProductService;
 import com.example.CommercePlatform.util.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,31 +29,31 @@ public class ProductController {
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
     private final ProductValidator productValidator;
+    private final PersonService personService;
 
     @Autowired
-    public ProductController(ProductService productService, ProductCategoryService productCategoryService, ProductValidator productValidator) {
+    public ProductController(ProductService productService, ProductCategoryService productCategoryService, ProductValidator productValidator, PersonService personService) {
         this.productService = productService;
         this.productCategoryService = productCategoryService;
         this.productValidator = productValidator;
+        this.personService = personService;
     }
 
     // Read
     @GetMapping("")
     public String index(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        model.addAttribute("user", personDetails.getPerson());
-
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        model.addAttribute("user", personService.getPersonFromAuthentication());
         model.addAttribute("products", productService.findAll());
         return "/product/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        model.addAttribute("user", personDetails.getPerson());
-
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        model.addAttribute("user", personService.getPersonFromAuthentication());
         model.addAttribute("product", productService.findOne(id));
         return "/product/show";
     }

@@ -7,6 +7,7 @@ import com.example.CommercePlatform.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -29,6 +30,11 @@ public class OrderService {
     public List<Order> findAll() {
         return orderRepository.findAll();
     }
+
+    public List<Order> filter(String search) {
+        System.out.println(search.toLowerCase());
+        return orderRepository.findByNumberEndingWithIgnoreCase(search.toLowerCase());
+    }
     @Transactional
     public void create(Order order) {
         orderRepository.save(order);
@@ -37,5 +43,4 @@ public class OrderService {
     public void changeOrderStatus(String orderNumber, Status status) {
         orderRepository.updateStatusByOrderNumber(orderNumber, status.ordinal());
     }
-
 }

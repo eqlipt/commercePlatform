@@ -7,12 +7,24 @@
 <header th:include="fragments/shared :: header"></header>
 <div class="container">
     <h3 th:text="'Список заказов'"></h3>
+    <form class="order-search-form"
+        th:method="POST"
+        th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_SUPPLIER')}"
+        th:action="@{/sales}">
+        <input type="text" name="search" id="search" class="input input__search-order" th:value="${search}" placeholder="Последние 4 знака идентификатора заказа">
+        <input class="button button-primary" type="submit" value="Найти">
+        <a class="button" th:href="@{/sales}">Сбросить</a>
+    </form>
     <div th:each="orderList, orderNumber : ${orders}" class="order-body">
-        <a th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER')}" th:href="@{/order/{number}(number=${orderNumber.current.getKey()})}" class="order-heading">
+        <a class="order-heading"
+           th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER')}"
+           th:href="@{/order/{number}(number=${orderNumber.current.getKey()})}">
             <div th:replace="fragments/shared :: orderTopRow"></div>
             <div th:replace="fragments/shared :: orderBottomRow"></div>
         </a>
-        <a th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_SUPPLIER')}" th:href="@{/sales/{number}(number=${orderNumber.current.getKey()})}" class="order-heading">
+        <a class="order-heading"
+           th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_SUPPLIER')}"
+           th:href="@{/sales/{number}(number=${orderNumber.current.getKey()})}">
             <div th:replace="fragments/shared :: orderTopRow"></div>
             <div th:replace="fragments/shared :: orderBottomRow"></div>
         </a>
