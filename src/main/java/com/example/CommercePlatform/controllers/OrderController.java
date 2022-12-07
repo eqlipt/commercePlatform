@@ -72,6 +72,12 @@ public class OrderController {
         return "/order/show";
     }
 
+    @GetMapping("/{number}/cancel")
+    public String cancelOrder(@PathVariable("number") String orderNumber) {
+        orderService.cancel(orderNumber);
+        return "redirect:/order/{number}";
+    }
+
     @GetMapping("/create")
     public String create(Model model) {
         Person person = personService.getPersonFromAuthentication();

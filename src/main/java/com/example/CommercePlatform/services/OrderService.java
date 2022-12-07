@@ -7,7 +7,6 @@ import com.example.CommercePlatform.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -42,5 +41,9 @@ public class OrderService {
     @Transactional
     public void changeOrderStatus(String orderNumber, Status status) {
         orderRepository.updateStatusByOrderNumber(orderNumber, status.ordinal());
+    }
+    @Transactional
+    public void cancel(String orderNumber) {
+        this.changeOrderStatus(orderNumber, Status.Отменён);
     }
 }

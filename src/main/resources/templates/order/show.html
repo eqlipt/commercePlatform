@@ -45,7 +45,7 @@
                 </tr>
             </tfoot>
         </table>
-        <a class="button button-danger" th:text="'Отменить заказ'" th:href="@{/order/cancel}" th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER') && (orderStatus.toString().equals('Принят') || orderStatus.toString().equals('Обработка'))}"></a>
+        <a class="button button-danger" th:text="'Отменить заказ'" th:href="@{/order/{number}/cancel(number=${orderNumber})}" th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER') && (orderStatus.toString().equals('Принят') || orderStatus.toString().equals('Обработка'))}"></a>
     </div>
     <p th:if="${products.isEmpty()}" th:text="'Заказ с таким номером не существует или не содержит товаров'"></p>
 </div>
