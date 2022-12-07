@@ -41,8 +41,6 @@ public class OrderController {
         Person person = personService.getPersonFromAuthentication();
         List<Order> orderList = orderService.findAllByUser(person);
         var orders = orderList.stream().collect(Collectors.groupingBy(Order::getNumber));
-//        orders.forEach((innerKey, innerList) -> innerList.forEach((listItem) -> System.out.println(listItem.getProduct().getPrice())));
-//        var sum = orders.values().stream().flatMapToInt(list -> list.stream().mapToInt(Order::getPrice)).sum();
         model.addAttribute("orders", orders);
         return "/order/index";
     }

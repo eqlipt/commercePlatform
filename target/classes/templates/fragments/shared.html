@@ -59,7 +59,7 @@
 </div>
 <div th:fragment="orderBottomRow" class="order-heading__bottom-row">
   <span class="order-identifier" th:text="'Идентификатор заказа: ' + ${currentOrderRow.getKey()}"></span>
-  <!--                <span class="order-price" th:text="' ₽' + ${currentOrderRow.getValue().stream().collect(Collect)}"></span>-->
+  <span class="order-price" th:text="${T(com.example.CommercePlatform.util.OrderReducer).sum(wholeOrder.current.getValue())} + ' ₽'"></span>
 </div>
 
 </body>
