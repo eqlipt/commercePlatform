@@ -42,8 +42,6 @@ public class ProductController {
     // Read
     @GetMapping("")
     public String index(Model model){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         model.addAttribute("user", personService.getPersonFromAuthentication());
         model.addAttribute("products", productService.findAll());
         return "/product/index";
@@ -51,8 +49,6 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         model.addAttribute("user", personService.getPersonFromAuthentication());
         model.addAttribute("product", productService.findOne(id));
         return "/product/show";
