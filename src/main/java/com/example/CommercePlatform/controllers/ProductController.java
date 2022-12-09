@@ -95,8 +95,8 @@ public class ProductController {
 
     @PostMapping("/{id}/edit")
     public String update(@ModelAttribute("product") @Valid Product product,
-                         @RequestParam("files") MultipartFile[] files,
                          BindingResult bindingResult,
+                         @RequestParam("files") MultipartFile[] files,
                          @PathVariable("id") int id,
                          Model model
     ) {
