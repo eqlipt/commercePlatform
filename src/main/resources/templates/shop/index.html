@@ -31,12 +31,7 @@
     </div>
     <div class="products products-side">
       <div class="product-card" th:each="pr : ${products}">
-        <a class="product-card__link" th:href="@{/shop/{id}(id=${pr.getId()})}">
-          <span class="product-card__category" th:text="${pr.getCategory().getName()}"></span>
-          <img th:src="${'/img/' + pr.getImageList()[0].getFileName()}"/>
-          <span class="product-card__price-label" th:text="${pr.getPrice()} + ' ₽'"></span>
-          <span th:text="${pr.getTitle()}"></span>
-        </a>
+        <a th:include="fragments/shared :: productCardLink" th:href="@{/shop/{id}(id=${pr.getId()})}"></a>
         <a class="button button-primary button-add"
            th:text="'В корзину'"
            th:href="@{/cart/add/{id}(id=${pr.getId()})}">

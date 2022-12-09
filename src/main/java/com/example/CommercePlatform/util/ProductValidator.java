@@ -23,7 +23,6 @@ public class ProductValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        System.out.println("Validator working");
         Product submittedProduct = (Product) target;
         Product dbProduct = productService.findProductByTitle(submittedProduct.getTitle());
         if(

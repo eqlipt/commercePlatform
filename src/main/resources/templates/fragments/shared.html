@@ -27,6 +27,7 @@
         </div>
         <div>
           <a th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_CUSTOMER')}" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping"></i></a>
+          <a th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_SUPPLIER')}" th:href="@{/product}"><i class="fa-solid fa-tents"></i></a>
           <a th:if="${#authentication.getAuthorities().stream().findFirst().toString().contains('ROLE_SUPPLIER')}" th:href="@{/sales}"><i class="fa-solid fa-store"></i></a>
           <a class="navbar__username" th:href="@{/personal}" th:text="${#authentication.getPrincipal() == 'anonymousUser' ? '' : #request.userPrincipal.getName()}"></a>
           <a th:if="${#authentication.getPrincipal() == 'anonymousUser'}" class="button" href="/auth/login">Вход</a>
@@ -38,20 +39,46 @@
       </nav>
 </header>
 
+
+
 <div th:fragment="errorPage" class="container">
   <h3 th:include=":: #pageH3">Generic error heading</h3>
   <p th:include=":: #pageText">Generic error text</p>
   <a th:href="@{/}">Главная</a>
 </div>
 
+
+
+<div th:fragment="productImageContainer" class="product-image__image_container">
+  <img class="product-image" th:each="image : ${product.getImageList()}" th:src="${'/img/' + image.getFileName()}"/>
+</div>
+
+<div th:fragment="productButtonContainer" class="product-image__button_container">
+  <input type="file" name="files" id="files" class="input-file" accept=".jpg, .jpeg, .png" data-multiple-caption="Выбрано файлов: {count}" multiple>
+  <label class="button button-add_images" for="files">Выберите изображения</label><span>до 5 файлов формата .jpg, .jpeg, .png</span>
+  <div class="upload__image-container"></div>
+</div>
+
+<div th:fragment="productImageAddBlock" class="product-image__edit-block">
+  <div th:replace="fragments/shared :: productImageContainer"></div>
+  <div th:replace="fragments/shared :: productButtonContainer"></div>
+</div>
+
 <div th:fragment="productShowcase" class="product__showcase">
   <h4 th:text="${product.getCategory().getName() + ' ' + product.getTitle()}"></h4>
-  <img th:src="${'/img/' + product.getImageList()[0].getFileName()}"/>
-  <p th:text="'Стоимость: ' + ${product.getPrice()} + '₽'"></p>
+  <div th:replace="fragments/shared :: productImageContainer"></div>
+  <p th:text="'Стоимость: ' + ${product.getPrice()} + ' ₽'"></p>
   <p th:text="${product.getDescription()}"></p>
   <p th:text="'Поставщик: ' + ${product.getSupplier()}"></p>
   <p th:text="'На складе: ' + ${product.getWarehouse()}"></p>
 </div>
+
+<a th:fragment="productCardLink" class="product-card__link">
+  <span class="product-card__category" th:text="${pr.getCategory().getName()}"></span>
+  <img th:src="${'/img/' + (pr.getImageList().isEmpty() ? 'logo.jpg' : pr.getImageList()[0].getFileName())}"/>
+  <span class="product-card__price-label" th:text="${pr.getPrice()} + ' ₽'"></span><br>
+  <span th:text="${pr.getTitle()}"></span>
+</a>
 
 <div th:fragment="orderTopRow" class="order-heading__top-row">
   <h5 th:text="'Заказ от ' + ${#temporals.format(currentOrderRow.getValue().toArray()[0].getDateTime(), 'dd MMM yyyy')}"></h5>

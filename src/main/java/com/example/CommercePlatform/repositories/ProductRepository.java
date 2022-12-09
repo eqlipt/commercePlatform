@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     Optional<Product> findByTitle(String title);
 
+    Optional<Product> findById(int id);
+
     @Query(nativeQuery = true, value = "SELECT * FROM product ORDER BY price asc")
     List<Product> findAllOrderByPriceAsc();
     @Query(nativeQuery = true, value =

@@ -1,6 +1,8 @@
 package com.example.CommercePlatform.services;
 
+import com.example.CommercePlatform.models.Image;
 import com.example.CommercePlatform.models.Product;
+import com.example.CommercePlatform.repositories.ImageRepository;
 import com.example.CommercePlatform.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,12 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ImageRepository imageRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ImageRepository imageRepository) {
         this.productRepository = productRepository;
+        this.imageRepository = imageRepository;
     }
 
     public List<Product> findAll() {
@@ -30,7 +34,6 @@ public class ProductService {
     }
 
     public Product findProductByTitle(String title) {
-        System.out.println("Service working: finding product by title");
         Optional<Product> optionalProduct = productRepository.findByTitle(title);
         return optionalProduct.orElse(null);
     }
@@ -42,12 +45,7 @@ public class ProductService {
     public List<Product> filter(String search, float priceFrom, float priceTo, int category_id) {
         return productRepository.findByTitleContainingIgnoreCaseAndPriceRangeAndCategory(search.toLowerCase(), priceFrom, priceTo, category_id);
     }
-//
-//    public static float findMaxPrice(List<Product> products) {
-//        Optional<Float> maxPrice;
-//        maxPrice = products.stream().map(product -> product.getPrice()).reduce(Float::max);
-//        return maxPrice.orElse(null);
-//    }
+
     @Transactional
     public void save(Product product) {
         productRepository.save(product);
@@ -62,6 +60,11 @@ public class ProductService {
     @Transactional
     public void delete(int id) {
         productRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteImageFromProduct(String imageFileName) {
+        imageRepository.deleteImageByFileName(imageFileName);
     }
 
 }

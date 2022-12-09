@@ -7,22 +7,36 @@
 <header th:include="fragments/shared :: header"></header>
 <div class="container">
   <h3>Изменение товара</h3>
-  <form th:method="POST" th:action="@{/product/{id}/edit(id=${product.getId()})}" th:object="${product}">
-    <label for="category">Категория товара: </label>
-    <select name="category" id="category" th:field="*{category}">
-      <option th:each="element : ${category}" th:text="${element.getName()}" th:value="${element.getId()}"></option>
-    </select>
+  <form th:method="POST" th:action="@{/product/{id}/edit(id=${product.getId()})}" th:object="${product}" enctype="multipart/form-data">
+    <div class="product-form__top_container">
+      <div>
+        <label for="category">Категория товара: </label>
+        <select name="category" id="category" th:field="*{category}">
+          <option th:each="element : ${category}" th:text="${element.getName()}" th:value="${element.getId()}"></option>
+        </select>
 
-    <label for="title">Наименование: </label>
-    <input type="text" th:field="*{title}" id="title"><br>
-    <p class="error-message" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        <label for="title">Наименование: </label>
+        <input type="text" th:field="*{title}" id="title">
+        <p class="error-message" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
 
-    <label for="price">Стоимость: </label>
-    <input type="number" th:field="*{price}" id="price"><br>
-    <p class="error-message" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
-
+        <label for="price">Стоимость: </label>
+        <input type="number" th:field="*{price}" id="price">
+        <p class="error-message" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+      </div>
+      <div class="product-image__edit-block">
+        <div class="product-image__image_container">
+          <a class="delete-image-link"
+             th:each="image : ${product.getImageList()}"
+             th:href="@{/product/{id}/img/delete(imageFileName=${image.getFileName()},id=${product.getId()})}">
+            <i class="fa-solid fa-trash-can delete-image-icon"></i>
+            <img class="product-image delete-product-image" th:src="${'/img/' + image.getFileName()}"/>
+          </a>
+        </div>
+        <div th:replace="fragments/shared :: productButtonContainer"></div>
+      </div>
+    </div>
     <label for="description">Описание: </label>
-    <textarea type="text" th:field="*{description}" id="description"></textarea><br>
+    <textarea type="text" th:field="*{description}" id="description"></textarea>
     <p class="error-message" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
 
     <label for="supplier">Поставщик: </label>
@@ -38,5 +52,6 @@
     <a class="button button-secondary" href="/product">Отмена</a>
   </form>
 </div>
+<script type="text/javascript" th:src="@{/js/addfiles.js}"></script>
 </body>
 </html>

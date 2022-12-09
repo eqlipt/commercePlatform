@@ -2,12 +2,13 @@ package com.example.CommercePlatform.controllers;
 
 import com.example.CommercePlatform.models.Image;
 import com.example.CommercePlatform.models.Product;
+import com.example.CommercePlatform.repositories.ImageRepository;
+import com.example.CommercePlatform.services.FileService;
 import com.example.CommercePlatform.services.PersonService;
 import com.example.CommercePlatform.services.ProductCategoryService;
 import com.example.CommercePlatform.services.ProductService;
 import com.example.CommercePlatform.util.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,28 +16,32 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-
-    @Value("${upload.path}")
-    private String uploadPath;
-
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
     private final ProductValidator productValidator;
     private final PersonService personService;
+    private final FileService fileService;
+    private final ImageRepository imageRepository;
 
     @Autowired
-    public ProductController(ProductService productService, ProductCategoryService productCategoryService, ProductValidator productValidator, PersonService personService) {
+    public ProductController(ProductService productService,
+                             ProductCategoryService productCategoryService,
+                             ProductValidator productValidator,
+                             PersonService personService,
+                             FileService fileService,
+                             ImageRepository imageRepository) {
         this.productService = productService;
         this.productCategoryService = productCategoryService;
         this.productValidator = productValidator;
         this.personService = personService;
+        this.fileService = fileService;
+        this.imageRepository = imageRepository;
     }
 
     // Read
@@ -67,35 +72,14 @@ public class ProductController {
 //    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public String create(@ModelAttribute("product") @Valid Product product,
                          BindingResult bindingResult,
-                         @RequestParam("file_one") MultipartFile file_one,
-                         Model model
-    ) throws IOException {
+                         @RequestParam("files") MultipartFile[] files,
+                         Model model) {
         model.addAttribute("category", productCategoryService.findAll());
 
         productValidator.validate(product, bindingResult);
         if(bindingResult.hasErrors()) return "/product/add";
 
-        // Проверка на пустоту файла
-        if(file_one != null){
-            // Дирректория по сохранению файла
-            File uploadDir = new File(uploadPath);
-            // Если данной дирректории по пути не сущетсвует
-            if(!uploadDir.exists()){
-                // Создаем данную дирректорию
-                uploadDir.mkdir();
-            }
-            // Создаем уникальное имя файла
-            // UUID представляет неизменный универсальный уникальный идентификатор
-            String uuidFile = UUID.randomUUID().toString();
-            // file_one.getOriginalFilename() - наименование файла с формы
-            String resultFileName = uuidFile + "." + file_one.getOriginalFilename();
-            // Загружаем файл по указаннопу пути
-            file_one.transferTo(new File(uploadPath + "/" + resultFileName));
-            Image image = new Image();
-            image.setProduct(product);
-            image.setFileName(resultFileName);
-            product.addImageToProduct(image);
-        }
+        fileService.upload(files, product);
 
         productService.save(product);
         return "redirect:/product";
@@ -111,13 +95,16 @@ public class ProductController {
 
     @PostMapping("/{id}/edit")
     public String update(@ModelAttribute("product") @Valid Product product,
+                         @RequestParam("files") MultipartFile[] files,
                          BindingResult bindingResult,
                          @PathVariable("id") int id,
-                         Model model) {
+                         Model model
+    ) {
         model.addAttribute("category", productCategoryService.findAll());
-
         productValidator.validate(product, bindingResult);
         if(bindingResult.hasErrors()) return "/product/edit";
+
+        fileService.upload(files, product);
 
         productService.update(id, product);
         return  "redirect:/product/{id}";
@@ -132,7 +119,21 @@ public class ProductController {
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") int id) {
+        var productImageFileNames = imageRepository.findAllByProduct(productService.findOne(id))
+                .stream()
+                .map(Image::getFileName)
+                .collect(Collectors.toList());
         productService.delete(id);
+        fileService.deleteImages(productImageFileNames);
         return "redirect:/product";
+    }
+
+    @GetMapping("/{id}/img/delete")
+    public String deleteImage(@RequestParam(value = "imageFileName", required = false) String imageFileName) {
+        if(!imageFileName.equals("")) {
+            productService.deleteImageFromProduct(imageFileName);
+            fileService.deleteImage(imageFileName);
+        }
+        return "redirect:/product/{id}/edit";
     }
 }

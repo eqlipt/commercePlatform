@@ -8,21 +8,23 @@
 <div class="container">
   <h3>Добавить новый товар</h3>
   <form th:method="POST" th:action="@{/product/add}" th:object="${product}" enctype="multipart/form-data">
-    <label for="category">Категория товара: </label>
-    <select name="category" id="category" th:field="*{category}">
-      <option th:each="element : ${category}" th:text="${element.getName()}" th:value="${element.getId()}"></option>
-    </select>
+    <div class="product-form__top_container">
+      <div>
+        <label for="category">Категория товара: </label>
+        <select name="category" id="category" th:field="*{category}">
+          <option th:each="element : ${category}" th:text="${element.getName()}" th:value="${element.getId()}"></option>
+        </select>
 
-    <label for="title">Наименование: </label>
-    <input type="text" th:field="*{title}" id="title">
-    <p class="error-message" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
-    <br>
+        <label for="title">Наименование: </label>
+        <input type="text" th:field="*{title}" id="title">
+        <p class="error-message" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
 
-    <label for="price">Стоимость: </label>
-    <input type="number" th:field="*{price}" id="price">
-    <p class="error-message" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
-    <br>
-
+        <label for="price">Стоимость: </label>
+        <input type="number" th:field="*{price}" id="price">
+        <p class="error-message" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+      </div>
+      <div th:replace="fragments/shared :: productImageAddBlock"></div>
+    </div>
     <label for="description">Описание: </label>
     <textarea type="text" th:field="*{description}" id="description"></textarea>
     <p class="error-message" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
@@ -33,13 +35,12 @@
 
     <label for="warehouse">Склад: </label>
     <input type="text" th:field="*{warehouse}" id="warehouse">
-    <p class="error-message" th:if="${#fields.hasErrors('warehouse')}" th:errors="*{warehouse}"></p><br>
-
-    <input type="file" name="file_one"><br><br>
-
+    <p class="error-message" th:if="${#fields.hasErrors('warehouse')}" th:errors="*{warehouse}"></p>
+    <br>
     <input class="button button-primary" type="submit" value="Добавить">
     <a class="button button-secondary" href="/product">Отмена</a>
   </form>
 </div>
+<script type="text/javascript" th:src="@{/js/addfiles.js}"></script>
 </body>
 </html>

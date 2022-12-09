@@ -35,7 +35,7 @@ public class Product {
     @NotEmpty(message = "Укажите поставщика")
     private String supplier;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<Image> imageList = new ArrayList<>();
 
     @ManyToOne(optional = false)
