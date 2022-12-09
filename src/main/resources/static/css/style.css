@@ -10,6 +10,11 @@ textarea {
     width: 100%;
     height: 180px;
 }
+img {
+    height: 139px;
+    max-width: 160px;
+    object-fit: contain;
+}
 .hidden {
     display: none;
 }
@@ -187,7 +192,7 @@ textarea {
 .product-card img {
     display: block;
     margin: 0 auto;
-    height: 139px;
+    object-fit: contain;
 }
 .product-card__price-label {
     display: inline-block;
@@ -216,9 +221,6 @@ textarea {
     flex-direction: row;
     flex-wrap: wrap;
 }
-.product-image__image_container img {
-    height: 139px;
-}
 .product-image__button_container {
     display: flex;
     align-items: center;
@@ -241,10 +243,6 @@ textarea {
     color: white;
     opacity: 0.8;
     transition: all 0.3s ease;
-}
-
-.product-image {
-    height: 139px;
 }
 .delete-product-image {
     opacity: 1;
