@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +31,19 @@ public class FileService {
             Arrays.stream(files).toList().forEach(
                 file -> {
                     if(!file.getOriginalFilename().equals("")) {
+                        try (InputStream input = file.getInputStream()) {
+                            try {
+                                ImageIO.read(input).toString();
+                                // It's an image (only BMP, GIF, JPG and PNG are recognized).
+                                System.out.println("it's an image");
+                            } catch (Exception e) {
+                                // It's not an image.
+                                System.out.println("it's not an image");
+                                return;
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         // Создаем уникальное имя файла
                         // UUID представляет неизменный универсальный уникальный идентификатор
                         String uuidFile = UUID.randomUUID().toString();
