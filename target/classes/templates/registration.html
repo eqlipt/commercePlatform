@@ -10,11 +10,11 @@
     <h3>Регистрация</h3>
     <form method="post" th:action="@{/auth/registration}" th:object="${person}">
       <label for="login">Выберите логин: </label>
-      <input type="text"  th:field="*{login}" placeholder="логин" name="username" id="login" autofocus>
+      <input class="form__auth_input" type="text"  th:field="*{login}" placeholder="логин" name="username" id="login" autofocus>
       <p class="error-message" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></p>
       <br>
       <label for="password">Придумайте пароль: </label>
-      <input type="password" th:field="*{password}" placeholder="пароль" name="password" id="password">
+      <input class="form__auth_input" type="password" th:field="*{password}" placeholder="пароль" name="password" id="password">
       <p class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
       <br>
       <input class="button button-primary"  type="submit" value="Зарегистрироваться">

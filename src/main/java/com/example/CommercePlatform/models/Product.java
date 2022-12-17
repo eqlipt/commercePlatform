@@ -41,7 +41,7 @@ public class Product {
     @ManyToOne(optional = false)
     private ProductCategory category;
 
-    @ManyToMany()
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     @JoinTable(name = "product_cart", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "person_id"))
     private List<Person> personList;
 

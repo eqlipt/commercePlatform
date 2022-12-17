@@ -11,13 +11,14 @@
         <form method="post" action="/process_login">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <label for="username">Введите логин: </label>
-            <input type="text" placeholder="логин" name="username" id="username" autofocus>
+            <input class="form__auth_input" type="text" placeholder="логин" name="username" id="username" autofocus>
             <br>
             <label for="password">Введите пароль: </label>
-            <input type="password" placeholder="пароль" name="password" id="password">
+            <input class="form__auth_input" type="password" placeholder="пароль" name="password" id="password">
             <br>
             <p th:if="${param.error}" class="error-message">Неправильный логин или пароль</p>
-            <input class="button button-primary" type="submit" value="Войти">
+            <input class="button button-primary form__auth_input" type="submit" value="Войти">
+            <a class="form__auth_input forgot-password-link" th:href="'#'" th:text="'Сбросить пароль'"></a>
         </form>
     </div>
 </div>

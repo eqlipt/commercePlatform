@@ -1,6 +1,5 @@
 package com.example.CommercePlatform.services;
 
-import com.example.CommercePlatform.models.Image;
 import com.example.CommercePlatform.models.Product;
 import com.example.CommercePlatform.repositories.ImageRepository;
 import com.example.CommercePlatform.repositories.ProductRepository;
@@ -55,6 +54,16 @@ public class ProductService {
     public void update(int id, Product updatedProduct) {
         updatedProduct.setId(id);
         productRepository.save(updatedProduct);
+//        productRepository.updateProduct(
+//                id,
+//                updatedProduct.getTitle(),
+//                updatedProduct.getDescription(),
+//                updatedProduct.getPrice(),
+//                updatedProduct.getWarehouse(),
+//                updatedProduct.getSupplier(),
+//                updatedProduct.getCategory().getId()
+//        );
+
     }
 
     @Transactional

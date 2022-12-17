@@ -2,6 +2,7 @@ package com.example.CommercePlatform.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -20,12 +21,12 @@ public class Person {
 
     @NotEmpty(message = "Пароль не может быть пустым")
     @Column(name = "password")
-//    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "Пароль должен содержать не менее 6 символов, хотя бы одну цифру, спец символ, букву в верхнем и нижнем регистре ")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "Пароль должен содержать не менее 6 символов, хотя бы одну цифру, спец символ, букву в верхнем и нижнем регистре ")
     private String password;
 
     private String role;
 
-    @ManyToMany()
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     @JoinTable(name="product_cart", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> productList;
 

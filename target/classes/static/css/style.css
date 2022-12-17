@@ -66,6 +66,13 @@ img {
 .form__logout-button {
     display: inline-block;
 }
+.form__auth_input {
+    width: 100%;
+}
+.forgot-password-link {
+    display: block;
+    text-align: center;
+}
 
 .container {
     width: 90%;
